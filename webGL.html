@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
+    <style>
+        .banner-bg {
+            height: 400px;
+            color: #ffffff;
+            position: relative;
+        }
+        .welcome-text {
+            top: 10px;
+            left: 50px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div class="banner-bg" id="top">
+    <div class="banner-overlay"></div>
+    <div class="welcome-text">
+        <h2>Simple Design | Personal Portfolio</h2>
+        <h5>
+            This is a mobile friendly layout with Bootstrap v3.3.1
+            framework. Maecenas eu ante at nunc posuere fringilla sit
+            amet non dolor. Proin condimentum fermentum nunc.
+        </h5>
+    </div>
+</div>
+<script>
+
+    var prod = document.querySelector('.banner-bg');
+    var width = prod.clientWidth, height = prod.clientHeight;
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 3000);
+    var renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(width, height);
+    renderer.setClearColor('black');
+    renderer.setPixelRatio(devicePixelRatio);
+
+
+    prod.appendChild(renderer.domElement);
+    camera.position.z = 100;
+
+    // work section //
+
+    /* Light */
+    var ambientLight = new THREE.AmbientLight('white');
+    scene.add(ambientLight);
+    var pointLight = new THREE.PointLight('whitesmoke', 2, 50);
+    //pointLight.position.set( 5, 0, 0 );
+    //pointLight.position.y = 5;
+    pointLight.position.z = 5;
+    pointLight.position.y = 5;
+    scene.add(pointLight);
+    /* Light */
+
+    /* Texture */
+    var textureLoad = new THREE.TextureLoader();
+    /* Texture */
+
+    // work section //
+    var sunGeo = new THREE.SphereGeometry(12, 35, 35);
+    var sunMat = new THREE.MeshBasicMaterial();
+    var sun = new THREE.Mesh(sunGeo, sunMat);
+    //sun.position.set(0,0,0);
+    scene.add(sun); // add Sun
+
+    var mercuryGeo = new THREE.SphereGeometry(2, 15, 15);
+    var mercuryMat = new THREE.MeshNormalMaterial();
+    var mercury = new THREE.Mesh(mercuryGeo, mercuryMat);
+    scene.add(mercury); // add Mercury
+
+    // App Logic //
+    var t = 0;
+
+    function update() {
+        t += 0.01;
+        //sun.rotation.y += 0.005;
+        //mercury.rotation.y += 0.03;
+
+        mercury.position.x = 20 * Math.cos(t) + 0;
+        mercury.position.z = 20 * Math.sin(t) + 0; // These to strings make it work
+    }
+
+    // Draw Scene //
+    function render() {
+        renderer.render(scene, camera);
+    }
+
+    // App Loop //
+    function appLoop() {
+        requestAnimationFrame(appLoop);
+
+        update();
+        render();
+    }
+
+    appLoop();
+
+
+
+</script>
+</body>
+</html>
